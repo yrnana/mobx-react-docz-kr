@@ -1,5 +1,5 @@
 ---
-name: Libraries
+name: 라이브러리
 route: /libraries
 ---
 
@@ -9,37 +9,37 @@ route: /libraries
 
 그리고 [React Hooks] 이 나타났습니다. [mobx-react-lite]는 이 새로운 세계를 지지하기 위해 만들어졌습니다. 몇몇 애호가들에게는 환영받았지만, 새로운 사용자들은 어려움을 겪었습니다. (지금도 말이죠)
 
-**React Hooks 기반 새로운 프로젝트에는 [mobx-react-lite]를 사용하세요. 기존 프로젝트라면 계속 읽어주세요.**
+**리액트 훅 기반 새로운 프로젝트에는 [mobx-react-lite]를 사용하세요. 기존 프로젝트라면 계속 읽어주세요.**
 
 > 머지않은 미래에 `mobx-react-lite` 는 deprecated 될 수 있으며 `mobx-react`가 될 수 있습니다.
 >
 > 걱정하지 마세요, 마이그레이션은 단어 하나만 바꾸면 될 정도로 간단할 것 입니다.
 
-## React Hooks를 사용해야만 하나요?
+## 리액트 훅을 사용해야만 하나요?
 
-🤷‍♂️ _Your code has class components while Hooks (React 16.8+) are out of reach?_
+🤷‍♂️ _훅을 사용하지 않고 클래스형 컴포넌트를 사용한다면?_
 
 👌 `mobx-react@5`를 사용해도 무방합니다.
 
-## React Hooks으로의 마이그레이션?
+## 리액트 훅으로의 마이그레이션?
 
-🤷‍♂️ _Class components still do exists in your code, but you can (and want) to use Hooks as well?_
+🤷‍♂️ _클래스형 컴포넌트를 사용하고 있지만, 훅도 사용하고 싶나요?_
 
-👌Use `mobx-react@6` which includes `mobx-react-lite` and uses it automatically for function components.
+👌 `mobx-react-lite`를 포함하고 있는 `mobx-react@6`를 함수형 컴포넌트에 사용하세요.
 
-> The Provider/inject in `mobx-react@6` has been migrated to [React Context](https://reactjs.org/docs/context.html), however it might be removed in future versions completely. Consider [using Context](/recipes-context) directly.
+> `mobx-react@6`의 Provider/inject는 [React Context](https://reactjs.org/docs/context.html)로 마이그레이션 되었지만, 이후에 완전히 없어질 수 있습니다. [Context 사용하기](/recipes-context)를 고려해보세요.
 
-## Fully embraced Hooks?
+## 훅을 완전히 사용하려면?
 
-🤷‍♂️ _No class components in your code?_
+🤷‍♂️ _클래스형 컴포넌트를 사용하지 않나요?_
 
 👌 작고 빠른 변이를 위해 `mobx-react-lite`를 사용하세요.
 
-> The library does not include way of propagating state (Provider, inject), see more about [accessing state](/state-how#accessing-a-state).
+> 이 라이브러리는 상태 전파를 하는 방법(Provider, inject)를 포함하지 않습니다. 이에 대해 더 보려면 [state에 접근하기](/state-how#accessing-a-state)를 확인하세요.
 
-# What version of `mobx`?
+# `mobx` 버전 선택?
 
-There are currently two maintained versions of `mobx`, the V4 (LTS) and V5. You can use either of those with any library mentioned above. The major difference is if you need to support IE11 which lacks ES6 Proxy support (MobX V5 depends on them).
+유지보수 되는 `mobx`에는 V4와 V5의 2가지 버전이 있습니다. 이 둘 중 어느것도 위에서 언급한 라이브러리들과 사용해도 됩니다. ES6의 Proxy를 사용할 수 없는 IE11을 지원하느냐(MobX V5가 이것에 의존합니다)가 가장 큰 차이입니다.
 
 [mobx-react]: https://github.com/mobxjs/mobx-react
 [mobx-react-lite]: https://github.com/mobxjs/mobx-react-lite

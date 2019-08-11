@@ -1,27 +1,27 @@
 ---
-name: useObserver hook
-menu: Observe state
+name: useObserver 훅
+menu: 상태 관찰
 route: '/observer-hook'
 ---
 
-# useObserver hook
+# useObserver 훅
 
 ```ts
 useObserver<T>(fn: () => T, baseComponentName = "observed", options?: IUseObserverOptions): T
 
 interface IUseObserverOptions {
-    // optional custom hook that should make a component re-render (or not) upon changes
+    // 변경시 컴포넌트를 다시 렌더링하는 선택적 사용자 정의 훅
     useForceUpdate: () => () => void
 }
 ```
 
-> The hook is available only with `mobx-react-lite` library or `mobx-react@6`.
+> 훅은 `mobx-react-lite`라이브러리 또는 `mobx-react@6`에서만 사용할 수 있습니다.
 
-Low level implementation used internally by [observer HOC](/observer-hoc) and [Observer component](/observer-component).
+저수준 구현이 [observer HOC](/observer-hoc) 와 [Observer component](/observer-component) 내부에서 사용됩니다.
 
-It allows you to use an observer like behaviour, but still allowing you to optimize the component in any way you want (e.g. using memo with a custom areEqual, using forwardRef, etc.) and to declare exactly the part that is observed (the render phase).
+이를 통해 동작과 같은 observer을 사용할 수 있지만, 원하는 방식으로 컴포넌트를 최적화 할 수 있습니다 (예. 사용자 정의 areEqual으로 memo 사용, forwardRef 사용 등). 그리고 관찰되는 부분을 정확하게 선언할 수 있습니다.
 
-One good thing about this is that if any hook changes an observable for some reason then the component won't rerender twice unnecessarily. (_example pending_)
+한 가지 좋은 점은 어떤 이유로든 훅이 관찰가능객체를 변경하면 불필요하게 두번 리렌더링 되지 않는다는 것입니다. (_예제 보류_)
 
 ```tsx
 import { useObserver, useLocalStore } from 'mobx-react-lite'
@@ -37,4 +37,4 @@ function Person() {
 }
 ```
 
-Despite using `useObserver` hook in the middle of the component, it will re-render a whole component on change of the observable. If you want to micro-manage renders, feel free to use [`<Observer />`](/observer-component) or `useForceUpdate` option (for advanced users).
+컴포넌트 중간에 `useObserver` 훅을 사용하더라도, 관찰가능객체의 변경시 전체 컴포넌트를 다시 렌더링합니다. 렌더를 미세하게 관리하려면, [`<Observer />`](/observer-component) 또는 `useForceUpdate` 옵션을 사용하세요 (고급 사용자의 경우).

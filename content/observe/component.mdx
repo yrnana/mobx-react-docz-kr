@@ -1,24 +1,24 @@
 ---
-name: observer component
-menu: Observe state
+name: observer 컴포넌트
+menu: 상태 관찰
 route: '/observer-component'
 ---
 
-# Observer component
+# Observer 컴포넌트
 
 ```tsx
 <Observer>{renderFn}</Observer>
 ```
 
-> Works the same way with `mobx-react` or `mobx-react-lite` library. No exception for class components.
+> `mobx-react` 또는 `mobx-react-lite` 가 동일한 방식으로 작동합니다. 클래스 컴포넌트에 예외는 없습니다.
 
-Is a React component, which applies observer to an anonymous region in your component.
+컴포넌트의 익명 영역에 observer를 적용하는 리액트 컴포넌트입니다.
 
-It takes as children a single, argumentless function which should return exactly one React component.
+자식으로 하나의 인수없는 함수를 사용하고 이 함수는 정확히 하나의 리액트 컴포넌트를 반환해야 합니다.
 
-The rendering in the function will be tracked and automatically re-rendered when needed.
+함수의 렌더링은 추적되고, 필요시에 자동으로 다시 렌더링 됩니다.
 
-This can come in handy when needing to pass render function to external components (for example the React Native listview), or if you want to observe only relevant parts of the output for a performance reasons.
+렌더링 함수를 외부 컴포넌트로 전달해야 하거나 (예를 들면 리액트 네이티브 listview) 성능상의 이유로 관련 부분만 관찰하려는 경우에 유용합니다.
 
 import { Playground } from 'docz'
 import ObservePerson from './component'
@@ -47,9 +47,9 @@ export function ObservePerson() {
 }
 ```
 
-## Nesting caveat
+## 중첩 경고
 
-Observer can see observables only within its own render function. If you use another render prop component, it won't be able to observe changes. Consider following example.
+Observer는 자체 렌더링 함수 내에서만 관찰가능객체를 볼 수 있습니다. 다른 렌더링 props 컴포넌트를 사용하면 변경 내용을 관찰할 수 없습니다. 다음 예제를 고려하세요.
 
 ```tsx
 import { Observer } from 'mobx-react'
@@ -65,7 +65,7 @@ function ObservePerson() {
 }
 ```
 
-You need to switch it around to work around the problem. Or use React Hooks if possible.
+문제를 해결하려면 전환해야 합니다. 또는 가능하다면 리액트 훅을 사용하세요.
 
 ```tsx
 import { Observer } from 'mobx-react'

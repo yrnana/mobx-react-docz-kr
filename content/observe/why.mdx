@@ -1,23 +1,21 @@
 ---
-name: Why to observe?
-menu: Observe state
+name: 왜 관찰해야 하나요?
+menu: 상태 관찰
 route: '/observe-why'
 ---
 
-# Why to observe?
+# 왜 관찰해야 하나요?
 
-MobX is based on concept of **observables** which may feel like magical tiny boxes (_as everything unknown_), but it's fairly simple actually.
+MobX는 마법상자처럼 느껴지는 **관찰되는** 개념을 기반으로 하지만 실제로는 매우 단순합니다.
 
-If you have ever worked with [PubSub-like patterns](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) (eg. _EventEmitter_), the observable it's fairly similar concept, but wrapped into a fancy package.
+[PubSub 같은 패턴](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) (예. _EventEmitter_)로 작업한 적이 있다면 관찰 가능한 개념과 상당히 유사하지만, 멋진 패키지로 싸여 있는 점을 알 수 있습니다.
 
-✨ It will manage subscriptions automatically while you focus on declaring what data you need.
+✨ 필요한 데이터를 선언하는데 집중하면서 구독을 자동으로 관리합니다.
 
-⏱ It's time-proof. You will always get a latest value no matter when you start observing.
+⏱ 시간이 걸리지 않습니다. 관찰을 시작하면 항상 최신 값을 얻습니다.
 
 <p>
-  This is very useful in the React world as you can stick to a declarative way
-  of writing components and simply work with data without additional hurdles and
-  boilerplate.
+  컴포넌트를 작성하는 선언 방법을 고수하면서 추가적인 장애물이나 상용구 없이 단순히 데이터로 작업할 수 있기 때문에 리액트 생태계에서 매우 유용합니다.
 </p>
 
 ```tsx
@@ -31,8 +29,8 @@ function LogoutWidget() {
 }
 ```
 
-With the usual React paradigms (e.g. useReducer) such a component cannot re-render itself based on a change of `user.name`. The parent component needs to cause an update to the child component, and that's not very efficient.
+일반적인 리액트 패러다임 (예. useReducer) 를 사용하면 이러한 컴포넌트는 user.name의 변경에 따라 리렌더링 되지 않습니다. 자식 컴포넌트가 업데이트 되기 위해 부모 컴포넌트가 존재해야 하고, 이는 비효율적입니다.
 
-With observer in place, the component itself can be notified about the change (as long as `user` is observable) and do a re-render without a parent ever knowing about it.
+관찰자가 있으면 (`user`가 관찰되는 한) 컴포넌트 자체에 변경 사항을 알리고 부모가 알지 못하더라도 리렌더링을 할 수 있습니다.
 
-Continue reading on [how to make your components reactive](/observe-how).
+[컴포넌트를 반응적으로 만드는 방법](/observe-how)에 대해 계속 읽으세요.

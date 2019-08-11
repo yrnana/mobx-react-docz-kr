@@ -1,33 +1,33 @@
 ---
 name: observer HOC
-menu: Observe state
+menu: 상태 관찰
 route: '/observer-hoc'
 ---
 
 # observer HOC
 
-Is the most prominent from family of tools to introduce reactivity to your components. Please refer to [React docs](https://reactjs.org/docs/higher-order-components.html) for a basic understanding of HOC pattern.
+컴포넌트에 반응성을 도입하는 방법 중 가장 유명한 방법입니다. HOC 패턴에 대한 기본적인 이해는 [React 문서](https://reactjs.org/docs/higher-order-components.html) 를 참조하세요.
 
 ```ts
 observer<P>(baseComponent: React.FC<P>, options?: IObserverOptions): React.FC<P>
 
 interface IObserverOptions {
-    // Pass true to use React.forwardRef over the inner component. It's false by the default.
+    // 내부 컴포넌트에 React.forwardRef를 사용하려변 true를 전달하세요. 기본적으로 false입니다.
     forwardRef?: boolean
 }
 ```
 
-> Use `mobx-react` if you need to observe class component. It doesn't support any of mentioned options, though.
+> 클래스 컴포넌트를 관찰해야 하는 경우 `mobx-react`를 사용하세요. 하지만 이것은 언급된 옵션들을 지원하지 않습니다.
 
-The `observer` converts a component into a reactive component, which tracks which observables are used automatically and re-renders the component when one of these values changes.
+`observer`는 컴포넌트를 반응적인 컴포넌트로 바꿉니다. 이 컴포넌트는 어떤 관찰가능 객체들이 사용되는지 자동으로 추적하고 이러한 값 중 하나가 변경되면 컴포넌트를 다시 렌더링 합니다.
 
-Along the observer capability, the `React.memo` is applied to the component. The general idea is, that observed components rarely need to re-render based on a complex props.
+observer 기능과 함께, `React.memo`가 컴포넌트에 적용됩니다. 일반적으로 관찰되는 컴포넌트는 복잡한 props를 기반으로 새로 렌더링할 필요가 거의 없습니다.
 
-> **⚠ WARNING**
+> **⚠ 주의**
 >
-> If component wrapped to `observer` depends on updates of [legacy context](https://reactjs.org/docs/legacy-context.html), the underlying `React.memo` will effectively prevent that update to propagate.
+> `observer`로 래핑된 컴포넌트가 [레거시 컨텍스트](https://reactjs.org/docs/legacy-context.html)의 업데이트에 의존하는 경우, 숨겨진 `React.memo`는 해당 업데이트가 전파되는 것을 효과적으로 방지합니다.
 >
-> Try to avoid using legacy context or alternatively use `Observer` component or `useObserver` hook.
+> 레거시 컨텍스트를 사용하지 않거나 대체하려면 `Observer` 컴포넌트 또는 `useObserver` 훅을 사용하세요.
 
 ```tsx
 import { observer, useLocalStore } from 'mobx-react-lite'

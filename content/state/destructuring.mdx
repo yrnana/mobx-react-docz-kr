@@ -1,12 +1,12 @@
 ---
-name: State destructuring
-menu: Manage state
+name: 상태 구조분해
+menu: 상태 관리
 route: '/state-destruct'
 ---
 
-# Don't destructure
+# 상태를 구조분해 하지 마세요
 
-MobX observable are objects (_and derivates_) only. When destructuring, any primitive variables will remain at latest values and won't be observable anymore. Use [boxed observables][boxed] to track primitive values exclusively or preferrably pass a whole state object around.
+MobX의 관찰가능객체는 객체 (_와 파생물_) 만 될 수 있습니다. 구조를 분해하면, 모든 초기 변수는 최신 값으로 유지되며 더이상 관찰될 수 없습니다. 초기 변수를 독점적으로 추적하거나 우선적으로 전체 상태 객체를 전달하려면 [포장된 객체][boxed]를 사용하세요.
 
 _example pending_
 

@@ -13,14 +13,14 @@ export default {
       links: [
         {
           rel: 'stylesheet',
-          href: 'https://codemirror.net/theme/blackboard.css',
+          href: 'https://codemirror.net/theme/hopscotch.css',
         },
       ],
     },
   },
   themeConfig: {
     mode: 'dark',
-    codemirrorTheme: 'blackboard',
+    codemirrorTheme: 'hopscotch',
     showPlaygroundEditor: false,
     linesToScrollEditor: 50,
     colors: {

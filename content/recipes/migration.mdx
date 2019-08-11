@@ -1,27 +1,27 @@
 ---
-name: Migration guide
-menu: Recipes
+name: 마이그레이션 가이드
+menu: 레시피
 ---
 
-# Migration guide
+# 마이그레이션 가이드
 
-First and foremost. If you are happy with current Provider/inject pattern, there is nothing you need to change in your application. This guide is intented as the path to the future of React and tools that might provide you with better comfort.
+맨 먼저, 당신이 현재 Provider/inject 패턴에 만족하는 경우 애플리케이션을 변경할 필요가 없습니다. 이 가이드는 더 나은 편안함을 제공할 수 있는 리액트 및 도구의 미래로 가는 길을 위해 만들어졌습니다.
 
-> Gradual migration is absolutely possible. Don't rewrite your whole app at once.
+> 점진적 마이그레이션이 가능합니다. 전체 앱을 한번에 다시 작성하지 마세요.
 
-Since the introduction of [React Context](/recipes-context), the inject pattern [is considered obsolete](/recipes-inject) and it's highly recommended to migrate away over the time. Don't worry, it won't disappear from the library anytime soon.
+[React Context](/recipes-context)가 도입되었으므로 inject 패턴은 [구식으로 간주되며](/recipes-inject) 시간이 지남에 따라 마이그레이션 하는 것이 좋습니다. 라이브러리에서 곧바로 사라지는 것은 아니니 걱정하지 마세요.
 
-## **Prerequisite**: Upgrade to mobx-react 6.x
+## **전제조건**: mobx-react 6.x으로 업그레이드
 
-The library has been internally rewritten to use new Context. You will need React 16.8 to upgrade to this version.
+라이브러리는 새로운 Context를 사용하도록 내부적으로 재작성되었습니다. 이 버전으로 업그레이드 하려면 React 16.8이 필요합니다.
 
-### What about mobx-react 5.x?
+### mobx-react 5.x는 어떻습니까?
 
-If you are forced to stick to the older version (most likely because older React), there isn't really anything you can do right now and just keep using inject as you are used to.
+이전 버전을 고수해야 하는 경우 (구버전 리액트 때문에), 지금 당장 할 수 있는 일은 없으며 익숙한 대로의 주입을 계속 사용하세요.
 
-## Hooks for the rescue
+## 구조를 위한 훅
 
-React Hooks are most likely the easiest way to consume MobX store. They give you a freedom in how to do things instead of heavily opinionated inject. Consider following example.
+리액트 훅은 MobX 저장소를 사용하는 가장 쉬운 방법입니다. 그들은 당신에게 강하게 옵션화 된 inject를 제시하는 대신 일 하는 방법에 자유를 줍니다. 아래의 예제를 확인하세요.
 
 ```tsx
 import { observer } from 'mobx-react'
@@ -35,11 +35,11 @@ const UserOrderInfo = observer(() => {
 })
 ```
 
-But...but...**mixing state with a component UI is bad practice**, right? Well, nobody is forcing you to do that. If accessing context in UI component bothers you, just pass it through the props from a parent component. Or make your own HOC or render prop component if you must.
+하지만...**컴포넌트 UI와 상태를 혼합하는 것은 나쁜 습관이죠**, 맞나요? 글쎄요, 아무도 당신에게 강요하지 않습니다. 만약 UI 컴포넌트의 context에 접근하는 것이 신경쓰인다면 상위 컴포넌트에서 props로 전달하세요. 또는 필요한 경우 직접 HOC나 render pops 컴포넌트를 만드세요.
 
-Ok, that's cool, but let's take a step back here. How to exactly move from inject to such solution you might ask? It's very easy.
+좋아요, 그것도 멋지지만 한발짝 물러나봅시다. 주입에서 당신이 묻고 싶은 솔루션으로 옮기는 정확한 방법이 뭘까요? 그건 매우 간단합니다.
 
-The `mobx-react@6` exposes a Context object as `MobXProviderContext` for the purposes of gradual migration. You can make a simple hook like that.
+`mobx-react@6`는 점진적 마이그레이션을 위해 Context 객체를 `MobXProviderContext`로 노출합니다. 당신은 간단한 훅을 만들 수 있습니다.
 
 ```tsx
 import { MobXProviderContext } from 'mobx-react'
@@ -48,19 +48,19 @@ function useStores() {
 }
 ```
 
-That's all the basics you need to understand. You can simply use such hook for any function components you have refactored to hooks.
+이것이 당신이 이해해야 할 모든 기본사항입니다. 훅으로 리팩토링 한 함수형 컴포넌트에 이러한 훅을 간단히 사용할 수 있습니다.
 
-You can build on top of that and make a solution that fits your needs. For example have a hook for each separate store, eg. `useUserStore` or `useOrderStore`. It's a similar to passing string to inject, but much safer.
+그 위에 필요에 맞는 솔루션을 구축할 수 있습니다. 예를 들면, 각각의 개별 저장소에 대한 훅이 있다고 합시다, 예. `useUserStore` 또는 `useOrderStore`. 주입하기 위해 문자열을 전달하는 것과 비슷하지만 훨씬 안전합니다.
 
-### Why the hook is not exported from package?
+### 훅을 패키지에서 내보내지 않는 이유는 무엇인가요?
 
-It's becoming a good practice for packages to always hide the Context object and only export a relevant hook. Usually the reason are to abstract some internals tucked away in context. However, in case of MobX, there is nothing to hide, it's stores you have added there.
+패키지는 항상 Context 객체를 숨기고 관련 훅만 내보이는 것이 좋습니다. 일반적으로 그 이유는 상황에 따라 일부 내부 요소를 추상화 하기 위해서 입니다. 하지만 MobX의 경우 당신이 추가한 저장소기 때문에 숨길 것이 없습니다.
 
-Think of it more like tool for migration. The concept of Context is so simple that there is no added value of having it inside the library. If you ever manage to migrate a whole app to hooks, you can drop the Provider from `mobx-react` and use your own to gain even more control about it. Besides, it's inherently easier to correct types for own context (eg. with TypeScript).
+마이그레이션 도구라고 생각합시다. 컨텍스트의 개념은 너무 단순해서 라이브러리 내에 추가할 가치가 없습니다. 전체 앱을 훅으로 마이그레이션 한 경우 Provider를 `mobx-react`에서 삭제하고 자체적으로 사용해서 더 많은 제어권을 얻을 수 있습니다. 또한 고유한 컨텍스트에 따라 타입을 수정하는 것이 본질적으로 더 쉽습니다 (예. TypeScript 사용).
 
-### What about mapper function?
+### 매퍼 함수는 어떻습니까?
 
-With original `inject` you were able to do something like following.
+기존의 `inject` 로 다음과 같은 것을 할 수 있었습니다.
 
 ```tsx
 @inject(stores => ({
@@ -79,9 +79,9 @@ class UserOrderInfo extends React.Component {
 }
 ```
 
-It's important to realize here, that with hooks, such mapping utility is probably redundant. You can do that directly within the component as show in first example on this page.
+후크를 사용하면 이러한 매핑 유틸리티가 중복될 수 있음을 알아야 합니다. 이 페이지의 첫 번째 예제와 같이 컴포넌트 내에서 직접 수행할 수 있습니다.
 
-Alternatively, you can make a custom hook that takes care of mapping only. It may prove useful for reusability purposes or simply a separation of concerns.
+또한, 매핑만 처리하는 사용자 훅을 만들 수 있습니다. 재사용가능성 목적 또는 관심사 분리에 유용할 수 있습니다.
 
 ```tsx
 function useUserData() {
@@ -93,7 +93,7 @@ function useUserData() {
 }
 
 const UserOrderInfo = observer(() => {
-  // Do not destructure data!
+  // 구조분해를 하지 마세요
   const data = useUserData()
   return (
     <div>
@@ -103,10 +103,10 @@ const UserOrderInfo = observer(() => {
 })
 ```
 
-However, be warned here. If you would attempt to destructure `data`, you would lose the reactivity. That is the general problem of MobX and many got burned by it. An alternative and safer approach can look like following.
+그러나 주의하세요. 만일 당신이 `데이터`를 구조분해 하려고 하면, 반응성이 손실됩니다. 이것이 MobX의 일반적인 문제이며 많은 사람들이 문제를 겪었습니다. 대안적이고 안전한 접근 방식은 다음과 같습니다.
 
 ```tsx
-// use mobx-react@6.1.2 or `mobx-react-lite`
+// mobx-react@6.1.2 또는 `mobx-react-lite`를 사용하세요
 import { useObserver } from 'mobx-react'
 function useUserData() {
   const { user, order } = useStores()
@@ -117,7 +117,7 @@ function useUserData() {
 }
 
 const UserOrderInfo = () => {
-  // this works now just fine
+  // 이것은 잘 동작합니다
   const { username, orderId } = useUserData()
   return (
     <div>
@@ -127,17 +127,17 @@ const UserOrderInfo = () => {
 }
 ```
 
-In this case you can omit the wrapping `observer`, but you need to be sure there is no other observable present in the component.
+이 경우 랩핑 `observer`를 생략할 수 있지만, 컴포넌트에 다른 관찰가능객체가 없는지 확인해야 합니다.
 
-## Make your own inject
+## 나만의 inject 만들기
 
-If you are for some reason convinced that inject is superb pattern and you don't want to leave it, just make your own. The basic one looks as easy as this.
+어떠한 이유로 inject가 최고의 패턴이라고 확신하고 그것을 떠나고 싶지 않다면 직접 만드세요. 기본적인 것은 이것처럼 쉽습니다.
 
 ```tsx
 import { MobXProviderContext } from 'mobx-react'
 function inject(selector, baseComponent) {
   const component = ownProps => {
-    const store = React.useContext(MobXProviderContext)
+  const store = React.useContext(MobXProviderContext)
     return useObserver(() => baseComponent(selector({ store, ownProps })))
   }
   component.displayName = baseComponent.name
@@ -145,6 +145,6 @@ function inject(selector, baseComponent) {
 }
 ```
 
-Note this implementation has `useObserver` inside which means that you won't need to wrap your component into `observer` also. These are the perks of being able to do it your way.
+이 구현에는 `useObserver`가 포함되어 있으므로 컴포넌트를 `observer`로 래핑할 필요가 없습니다. 이것은 당신의 방식으로 할 수 있는 특전입니다.
 
-We highly recommend to use a different name than `inject`, especially if you gradually migrating and still using original `inject` alongside.
+점진적으로 마이그레이션 하면서 기존의 `inject`를 계속 사용하는 경우 `inject`와 다른 이름을 사용하는 것이 좋습니다.

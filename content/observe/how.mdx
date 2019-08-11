@@ -1,20 +1,20 @@
 ---
-name: How to observe?
-menu: Observe state
+name: 어떻게 관찰하나요?
+menu: 상태 관찰
 route: '/observe-how'
 ---
 
-# Adding reactivity to React components
+# 리액트 컴포넌트에 반응성 추가하기
 
-There are three ways to add reactivity to components:
+컴포넌트에 반응성을 추가하는 방법은 3가지 입니다:
 
 😎 [observer HOC][observerh]
 
-🤓 [observer component][observerc]
+🤓 [observer 컴포넌트][observerc]
 
-🧐 [useObserver hook][useobserver]
+🧐 [useObserver 훅][useobserver]
 
-In most cases, there difference doesn't matter that much, but here is an overview of the three different approaches
+대부분의 경우 차이점은 그다지 중요하지 않지만 여기에 세가지 접근 방식에 대한 개요가 있습니다.
 
 ```tsx
 import { observable } from 'mobx'
@@ -25,7 +25,7 @@ const person = observable({
   name: 'John',
 })
 
-// named function is optional (for debugging purposes)
+// 기명 함수는 옵션입니다 (디버그를 위한)
 const P1 = observer(function P1({ person }) {
   return <h1>{person.name}</h1>
 })
@@ -51,7 +51,7 @@ setTimeout(() => {
 
 [![Edit MobX in React - observer pattern](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/4qrv105l47?fontsize=14)
 
-Curious what makes observability so great and [why you should do it](/observe-why)?
+관찰성이 중요한 이유와 [왜 그렇게 해야 하는지](/observe-why) 궁금하신가요?
 
 [observerh]: /observer-hoc
 [observerc]: /observer-component

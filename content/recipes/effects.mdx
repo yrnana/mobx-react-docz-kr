@@ -1,13 +1,13 @@
 ---
 name: Side effects
-menu: Recipes
+menu: 레시피
 ---
 
-# Side effects and observables
+# Side effects 와 관찰가능객체
 
-You might have been using [`React.useEffect`][useeffect] for several reasons, eg. setting `document.title` dynamically or for managing timers.
+여러가지 이유로 [`React.useEffect`][useeffect] 를 사용했을 수 있습니다 (예. `document.title`를 동적으로 설정하기 위해 또는 타이머를 관리하기 위해).
 
-What if your side effect actually depends on observable value? Don't worry, MobX got you covered.
+만일 side effect가 관찰가능객체에 의존한다면 어떨까요? MobX가 당신을 도와줄테니 걱정하지 마세요.
 
 ```tsx
 import React from 'react'
@@ -24,17 +24,17 @@ function useDocumentTitle(store: TStore) {
 }
 ```
 
-Important realization here is that you will **never** need to specify dependencies for `useEffect` because there are simply none. Or to be more precise it does depend on `store` variable, but that's the same case as for `React.useRef` which value you shouldn't specify in dependencies also.
+여기서 중요한 사실은 `useEffect`에 대한 의존성이 없기 때문에 의존성을 지정할 필요가 **전혀** 없다는 겁니다. 또는 더 정확히 말하면 이것은 `저장소` 변수에 따라 다르지만 `React.useRef`의 경우와 마찬가지로 의존성에서 지정하지 않아야 하는 값과 동일합니다.
 
-> It surely is slightly verbose. We might eventually provide utility hooks like `useAutorun` or `useReaction`, but these are very easy to make on your own if you don't want to wait.
+> 확실히 약간 장황합니다. 우리는 `useAutorun` 나 `useReaction`같은 유틸리티 훅을 제공할 수도 있지만, 기다리고 싶지 않다면 스스로 만드는 것도 매우 쉽습니다.
 
-Since the `autorun` (and others from MobX family) returns a disposal function, it's ensured that `useEffect` will take care of disposal on unmount of the component.
+`autorun` (및 MobX 제품군의 기타 기능) 은 폐기 함수를 반환하므로, `useEffect`가 컴포넌트의 unmount시 폐기를 처리합니다.
 
-## Non-observable dependencies
+## 관찰할 수 없는 의존성
 
-What if effect depends on value from eg. props? One way is to specify it in dependency array of `useEffect` as you have been taught. However that means a reaction would be recreated and that's not very effective. In fact it wouldn't even work because reaction is not executed immediatelly by default (see [`fireImmediatelly` option][reaction]).
+만약 effects가 props 같은 값에 의존한다면? 하나의 방법은 학습한대로 `useEffect`의 의존성 배열에 지정하는 것입니다. 그러나 이는 반응이 재생성되어 효과적이지 않음을 의미합니다. 실제로 반응이 기본적으로 즉시 실행되지 않기 때문에 작동하지 않을 수도 있습니다 ([`fireImmediatelly` 옵션][reaction] 참조).
 
-Much better way is to `useAsObservableSource` ([learn more](/state-outsourcing)). Instead of constantly thinking what dependencies you should be providing, you simply use observables and let MobX figure out the rest. Isn't it great?
+훨씬 더 좋은 방법은 `useAsObservableSource`([자세히 알아보기](/state-outsourcing)) 를 사용하는 것입니다. 어떤 의존성을 제공해야 할지 계속해서 생각하는 대신 단순하게 관찰가능객체를 사용하고 MobX가 나머지를 파악하도록 합니다. 대단하지 않나요?
 
 ```ts
 import React from 'react'
@@ -73,9 +73,9 @@ function useFetcher<T>(
 }
 ```
 
-### Non-reactive side effects
+### 비반응성 side effects
 
-With the help of `useFetcher` hook we defined above we can showcase another approach for tackling side effects.
+위에서 정의한 `useFetcher` 훅을 사용해서 side effects를 해결하는 또 다른 접근법을 보여줄 수 있습니다.
 
 ```tsx
 const BookDetail = () => {
@@ -102,13 +102,13 @@ const BookDetail = () => {
 }
 ```
 
-Notice that even though `useEffect` references observable value we don't treat it is such simply because it's stored there mostly for a convenience. In case you do expect its value to be changed, you would have to wrap it to `autorun`.
+`useEffect`가 관찰가능객체를 참조하더라도 대부분 편의상 저장되어 있기 때문에 간단하게 취급하지는 않습니다. 값이 변경될 것으로 예상한다면 `autorun`을 위해 감싸야 합니다.
 
-> Using `observer` HOC here would not solve anything because it cannot see inside the `useEffect` callback.
+> `observer` HOC 를 사용하면 `useEffect` 콜백 내부를 볼 수 없기 때문에 아무것도 해결할 수 없습니다.
 
-There are no dependencies for `useEffect` meaning it will run on every render. It's definitely ok in this case because `useFetcher` is a major cause of re-rendering of the component.
+`useEffect`에 대한 의존성이 없으므로 모든 렌더링 시에 실행됩니다. 이 경우 `useFetcher`가 컴포넌트를 리렌더링하는 주요 원인이기 때문에 문제가 없습니다.
 
-However, if the `sectionName` would be dynamic, you would need to `useAsObservableSource` again or perhaps set the fetcher result inside the store to make it observable.
+하지만 만일 `sectionName`이 동적인 경우 `useAsObservableSource`를 다시 사용하거나 상점 내에서 fetcher 결과를 관찰할 수 있도록 설정해야 합니다.
 
 [useeffect]: https://reactjs.org/docs/hooks-reference.html#useeffect
 [reaction]: https://mobx.js.org/refguide/reaction.html

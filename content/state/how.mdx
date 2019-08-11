@@ -1,20 +1,20 @@
 ---
-name: How to manage state?
-menu: Manage state
+name: 상태를 어떻게 관리하나요?
+menu: 상태 관리
 route: '/state-how'
 ---
 
-# How to manage state?
+# 상태를 어떻게 관리하나요?
 
-State management in React is very broad topic and new patterns are introduced very often. MobX simplifies some things, but there is still several approach to use (#ILikeOptions).
+React의 상태 관리는 매우 광범위한 주제이며 새로운 패턴이 자주 소개됩니다. MobX는 몇 가지 사항을 단순화 하지만, 여전히 사용하려면 여러가지 접근 방식이 존재합니다 (#ILikeOptions).
 
-## Creating a state
+## 상태 생성
 
-The state in MobX is represented by any [observable object][observable]. You can use any of the mentioned approaches in linked document.
+MobX의 상태는 모든 [관찰가능객체][observable]로 표시됩니다. 링크된 문서에서 언급된 접근 방법 중 하나를 사용할 수 있습니다.
 
-For advanced and more robust state the better choice might be [mobx-state-tree].
+고급 사용자의 경우 더 강력한 상태를 만들기 위해서는 [mobx-state-tree]가 좋은 선택일 것 입니다.
 
-Lastly we have shiny new Hooks to help on this journey like [useLocalStore] _(not available in class components)_.
+마지막으로 우리는 이 여정에 도움을 주는 [useLocalStore]라는 새로운 훅을 가지고 있습니다 _(클래스형 컴포넌트 에서는 사용할 수 없음)_.
 
 ```tsx
 import { observable } from 'mobx'
@@ -33,31 +33,31 @@ function CreatingState() {
 }
 
 class CreatingState extends React.PureComponent {
-  // or use constructor if class properties are not available for you
+  // 클래스 프로퍼티를 사용할 수 없다면 constructor를 사용하세요
   simpleState = observable.array([1, 2, 3])
   render() {
-    // class component does not support any other way of
-    // keeping observable state within a component
+    // 클래스 컴포넌트는 컴포넌트 내부에 관찰가능객체 상태를 유지할 수 있는
+    // 다른 방법을 지원하지 않습니다
     return <Rendering simple={this.simpleState} />
   }
 }
 ```
 
-> Fair warning. Don't ever use `React.useMemo` to keep reference to the state object. It can be randomly thrown away by React and you would lose data.
+> 주의하세요. 상태 객체에 대한 참조를 유지하기 위해 `React.useMemo` 를 사용하지 마세요. React에 의해 임의로 버려질 수 있으며 데이터를 잃을 수 있습니다.
 
-## Accessing a state
+## 상태 접근
 
-Second important aspect of state management is how to pass created observable around the component tree. There is no MobX related logic, but it's certainly worth mentioning here.
+상태 관리에서 두번째로 중요한 측면은 컴포넌트 트리에 어떻게 관찰가능객체를 전달하느냐 입니다. MobX 관련 로직은 없지만, 여기에서 언급할 필요가 있습니다.
 
-In simple scenarios you can create an observable locally within a component and then pass it manually through props (as shown above). It's pretty much the same approach you would use with eg. [useReducer] except you will be passing single object around only.
+간단한 시나리오에서는 컴포넌트 내부에 관찰가능객체를 로컬로 만든 다음 이것을 props를 통해 전달할 수 있습니다 (위 참조). 단일 객체만 전달한다는 점을 제외하면 [useReducer] 를 사용하는 방법과 거의 동일한 접근 방식입니다.
 
-For a more robust state management it's recommended [to use React Context][context] over the legacy [inject].
+좀더 강력한 상태 관리를 위해서는 레거시 [inject]를 걷어내고 [React Context를 사용][context]하는 것을 추천합니다.
 
-### Global variable state?
+### 글로벌 변수 상태?
 
-It's possible to keep a application state in global variable that would get imported in component files and it will work in most cases.
+컴포넌트 파일에 주입될 수 있는 글로벌 변수에 상태를 저장할 수 있고 대부분의 경우 작동합니다.
 
-However, if you are writing tests (you should), global variable is a problem and can cause flakiness. In short, we don't recommended keeping state in global variable.
+그러나 만약 테스트를 작성한다면 (그래야만 합니다) 전역 변수는 문제가 될 수 있습니다. 즉, 전역 변수에 상태를 유지하는 것은 권장하지 않습니다.
 
 [usereducer]: https://reactjs.org/docs/hooks-reference.html#usereducer
 [observable]: https://mobx.js.org/refguide/observable.html

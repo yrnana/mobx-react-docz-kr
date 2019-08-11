@@ -1,19 +1,19 @@
 ---
 name: React Context
-menu: Recipes
+menu: 레시피
 ---
 
 # React Context
 
-If you are using `inject` in your code, please refer to [migration guide](/recipes-migration) first or learn [why inject is considered obsolete](/recipes-inject).
+코드에서 `inject` 를 사용하는 경우 먼저 [마이그레이션 가이드](/recipes-migration) 를 참조하거나 [inject가 더 이상 사용되지 않는 이유](/recipes-inject)를 알아보세요.
 
-[React Context][context] has replaced the [Legacy context][context-legacy] which was fairly awkward to use.
+[React Context][context] 는 사용하기 어려웠던 [Legacy context][context-legacy] 를 대체했습니다.
 
-Let's make a small, but not so contrived example to show what this means for MobX.
+이것이 MobX에 어떤 의미가 있는지 보여주기 위해 작지만 그렇게 부자연스럽지 않은 예제를 만들어 봅시다.
 
-### Create store
+### store 생성
 
-Let's declare a simple store. No need to worry about observables at this point, it's just a plain object.
+간단한 매장을 선언합시다. 이 시점에서 관찰가능객체에 대해 걱정할 필요는 없습니다. 단지 단순한 객체일 뿐입니다.
 
 ```tsx
 export type TFriend = {
@@ -23,7 +23,7 @@ export type TFriend = {
 }
 
 export function createStore() {
-  // note the use of this which refers to observable instance of the store
+  // 저장소의 관찰 가능한 예를 나타내는 이것의 사용 방법에 주목하세요
   return {
     friends: [] as TFriend[]
     makeFriend(name, isFavorite = false, isSingle = false) {
@@ -44,11 +44,11 @@ export function createStore() {
 export type TStore = ReturnType<typeof createStore>
 ```
 
-> For TypeScript user it's important to note that `this` will work correctly only when `noImplicitThis` or `strict` option is enabled in `tsconfig.json`.
+> TypeScript 사용자의 경우 `tsconfig.json`에 `noImplicitThis` 또는 `strict` 옵션이 활성화 된 경우에만 `this`가 올바르게 작동합니다.
 
-### Setup context
+### context 설정
 
-Nothing spectacular about it really, better to read [React docs](context) if you are unsure though.
+확실하지 않은 경우 [React 문서](context)를 읽는 것이 좋습니다.
 
 ```tsx
 import React from 'react'
@@ -65,18 +65,18 @@ export const StoreProvider = ({ children }) => {
 export const useStore = () => {
   const store = React.useContext(storeContext)
   if (!store) {
-    // this is especially useful in TypeScript so you don't need to be checking for null all the time
+    // 이것은 항상 null을 확인하지 않아도 되므로 특히 TypeScript에서 유용합니다.
     throw new Error('You have forgot to use StoreProvider, shame on you.')
   }
   return store
 }
 ```
 
-> You could drop a whole Provider dance and set created store as a default value of the `createContext`. The reference of the store object does not need to change, so it will work in most cases. However, you might still setup a Provider for tests to battle flakiness.
+> 전체 Provider를 삭제하고 작성한 저장소를 createContext의 기본값으로 설정할 수 있습니다. 저장소 객체의 참조는 변경할 필요가 없으므로 대부분의 경우 동작합니다. 하지만 여전히 테스트를 위해 Provider를 설정할 수 있습니다.
 
-### Making friends
+### 친구 만들기
 
-Now somewhere in the tree we have component like this.
+이제 트리의 어딘가에 이러한 컴포넌트가 있습니다.
 
 ```tsx
 import React from 'react'
@@ -98,11 +98,11 @@ export const FriendsMaker = observer(() => {
 })
 ```
 
-_Explicit implementation of form logic would take up too much space and is not important for the show case._
+_form 로직의 명시적 구현은 너무 많은 공간을 차지하므로 쇼케이스에 중요하지 않습니다._
 
-### Listing friends
+### 친구 목록 나열
 
-In some other part of the app we want to show friends that are single and favorite.
+친구들 중 미혼이면서 좋아하는 친구들을 보여주고 싶습니다.
 
 ```tsx
 import React from 'react'
@@ -110,8 +110,8 @@ import { useStore } from '../../../../store'
 
 export const MatchMaker = observer(() => {
   const store = useStore()
-  // for a sake of example filtering is done here
-  // you might as well expose it on the store directly
+  // 필터링 예제가 여기에서 수행됩니다
+  // 상점에서 직접 노출할 수도 있습니다
   const singleAndFavoriteFriends = store.singleFriends.filter(
     friend => friend.isFavorite,
   )
@@ -119,15 +119,15 @@ export const MatchMaker = observer(() => {
 })
 ```
 
-## Complex stores
+## 복잡한 저장소
 
-The example above is still very contrived. Usually the app state is much more robust, but it does not differ that much in its essence. You can have a single Root store and attach every other store onto it. Or have a multiple contexts, each for own segment of the app.
+위의 예제는 여전히 매우 부자연스럽습니다. 일반적으로 앱의 상태는 훨씬 강력하지만 본질적으로 그다지 다르지 않습니다. 단일 루트 저장소를 가지고 거기에 다른 여러가지 저장소들을 연결할 수 있습니다. 또는 앱의 부분 각각에 대한 여러 컨텍스트들을 가질 수 있습니다.
 
-Perhaps you want to consider [mobx-state-tree] for declaring store shape? It comes with other powerful features like snapshots and type safety out of box. Be sure to check it out.
+저장소 모양을 선언하기 위해 [mobx-state-tree] 를 고려하고 있나요? 스냅샷 및 타입 안전성과 같은 다른 강력한 기능들이 기본으로 제공됩니다. 꼭 확인하세요.
 
-The power of React hooks allows you to create specific hooks for abstracting how is the store structured, eg. `useFriendsList` or `useOrderCart`.
+리액트 훅은 저장소의 구조를 추상화하기 위한 특정 훅을 만들게 해줍니다. 예. `useFriendsList` 또는 `useOrderCart`.
 
-Such hooks are also great for mitigating long paths in bigger folder structure like seen in examples above.
+이런 훅들은 위의 예에서도 볼 수 있듯이 더 큰 폴더 구조에서 긴 경로를 완화하는데도 좋습니다.
 
 [context]: https://reactjs.org/docs/context.html
 [context-legacy]: https://reactjs.org/docs/legacy-context.html
