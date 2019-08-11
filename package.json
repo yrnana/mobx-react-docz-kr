@@ -9,7 +9,8 @@
   "private": false,
   "scripts": {
     "start": "docz dev",
-    "build": "docz build"
+    "build": "docz build",
+    "serve": "serve ."
   },
   "resolutions": {
     "react-hot-loader": "4.8.4"
