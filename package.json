@@ -10,7 +10,7 @@
   "scripts": {
     "start": "docz dev",
     "build": "docz build",
-    "serve": "serve ."
+    "serve": "serve .docz/dist"
   },
   "resolutions": {
     "react-hot-loader": "4.8.4"
